@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using halloween_story.Server.DataModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,23 +12,30 @@ namespace halloween_story.Server.Controllers
     [Route("[controller]")]
     public class StoryController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<StoryController> logger;
+        private readonly StoryDbContext storyDbContext;
 
-        public StoryController(ILogger<StoryController> logger)
+        public StoryController(ILogger<StoryController> logger, StoryDbContext storyDbContext)
         {
             this.logger = logger;
+            this.storyDbContext = storyDbContext;
         }
 
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => Summaries[rng.Next(Summaries.Length)]).ToArray();
+            return storyDbContext.StoryItems.OrderBy(s => s.Id).Select(s => s.Sentence).ToList();
+        }
+
+        [HttpPost]
+        public IEnumerable<string> Post([FromBody] string sentence)
+        {
+            if (!string.IsNullOrWhiteSpace(sentence) && sentence.Length > 5)
+            {
+                storyDbContext.StoryItems.Add(new StoryItem { Sentence = sentence.Trim(), DateCreated = DateTime.Now });
+                storyDbContext.SaveChanges();
+            }
+            return Get();
         }
     }
 }

@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
+    <AssemblyName>halloween_story.Client</AssemblyName>
+    <RootNamespace>halloween_story.Client</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

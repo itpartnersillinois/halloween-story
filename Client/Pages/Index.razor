@@ -1,7 +1,42 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@inject HttpClient Http
 
-Welcome to your new app.
+<h1>College of Education Halloween Story</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@if (story == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var sentence in story)
+    {
+        <p>@sentence</p>
+    }
+
+    <div class="bottom">
+        <input placeholder="Enter the next sentence. Remember, all submissions are final..." @bind-value="@sentence" />
+
+        <button @onclick="AddSentence">
+            Add a Sentence
+        </button>
+    </div>
+}
+
+@code {
+    private string[] story;
+
+    private string sentence;
+
+    protected override async Task OnInitializedAsync()
+    {
+        story = await Http.GetFromJsonAsync<string[]>("Story");
+    }
+
+    protected async Task AddSentence()
+    {
+        await Http.PostAsJsonAsync("Story", sentence);
+        story = await Http.GetFromJsonAsync<string[]>("Story");
+    }
+}
