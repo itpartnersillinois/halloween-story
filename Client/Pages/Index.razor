@@ -2,26 +2,26 @@
 
 @inject HttpClient Http
 
-<h1><a href="/">College of Education Halloween Story</a></h1>
+<h1>College of Education Halloween Story</h1>
 
 @if (story == null)
 {
-<p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
-@foreach (var sentence in story)
+    @foreach (var sentence in story)
     {
-<p>@sentence</p>
+        <p>@sentence</p>
     }
 
-<div class="bottom">
-    <input placeholder="Enter the next sentence. Remember, all submissions are final..." @bind-value="@sentence" />
+    <div class="bottom">
+        <label for="sentence" class="visually-hidden">Enter the next sentence. Remember, all submissions are final.</label> <input id="sentence" placeholder="Enter the next sentence. Remember, all submissions are final..." @bind-value="@sentence" />
 
-    <button @onclick="AddSentence">
-        Add a Sentence
-    </button>
-</div>
+        <button @onclick="AddSentence">
+            Add a Sentence
+        </button>
+    </div>
 }
 
 @code {
@@ -37,6 +37,7 @@ else
     protected async Task AddSentence()
     {
         await Http.PostAsJsonAsync("Story", sentence);
+        sentence = "";
         story = await Http.GetFromJsonAsync<string[]>("Story");
     }
 }

@@ -39,6 +39,8 @@
 h1 {
     font-size: 5em;
     text-align: center;
+    text-decoration: none;
+    color: darkred;
 }
 
     h1 a {
@@ -71,4 +73,14 @@ button {
     padding: 10px;
     font-family: 'Creepster', Helvetica, Arial, sans-serif;
     border: none;
+}
+
+.visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
 }
