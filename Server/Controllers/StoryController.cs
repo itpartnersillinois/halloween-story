@@ -24,7 +24,8 @@ namespace halloween_story.Server.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return storyDbContext.StoryItems.OrderBy(s => s.Id).Select(s => s.Sentence).ToList();
+            var items = storyDbContext.StoryItems.ToList();
+            return storyDbContext.StoryItems.ToList().Distinct().OrderBy(s => s.Id).Select(s => s.Sentence).ToList();
         }
 
         [HttpPost]
