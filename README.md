@@ -1,4 +1,4 @@
- # IT Partners Readme.md file
+ # Archived Project -- IT Partners Readme.md file
 
  ## Summary: 
  This is for the 2020 Virtual Halloween party to be hosted on a MS Teams channel. Plus, I wanted to play with Blazor, and this provided me with a good opportunity. 
